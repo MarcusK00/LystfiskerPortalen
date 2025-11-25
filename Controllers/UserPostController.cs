@@ -45,6 +45,14 @@ namespace LystfiskerPortalen.Controllers
             return Ok();
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(int id) // Endpoint "/api/userpost/getbyid/{id}"
+        {
+            if (id <= 0) return BadRequest(); // id needs to be bigger than 0.
+            var existingUserPost = await _userPostRepository.GetByIdAsync(id);
+            return Ok(existingUserPost); // Returns Ok with the UserPost found by the Id
+        }
+
 
 
 
