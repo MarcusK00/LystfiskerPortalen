@@ -1,6 +1,6 @@
 ﻿namespace LystfiskerPortalen.Models
 {
-    public class Post
+    public class UserPost
     {
     }
 }

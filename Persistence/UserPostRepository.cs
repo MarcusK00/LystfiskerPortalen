@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LystfiskerPortalen.Persistence
 {
-    public class PostRepository : IPostRepository
+    public class UserPostRepository : IUserPostRepository
     {
         private PostDbContext _dbContext { get; set; }
-        public PostRepository(PostDbContext context) //Context from dependency injection
+        public UserPostRepository(PostDbContext context) //Context from dependency injection
         {
             _dbContext = context; 
         }
-        public async Task AddAsync(Post post) // Add a new post to DbContext
+        public async Task AddAsync(UserPost post) // Add a new post to DbContext
         {
             if (post != null)
             {
@@ -30,28 +30,28 @@ namespace LystfiskerPortalen.Persistence
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Post>> GetAllAsync() // Gets all the posts
+        public async Task<List<UserPost>> GetAllAsync() // Gets all the posts
         {
             return await _dbContext.Posts.ToListAsync();
         }
 
-        public Task<List<Post>> GetAllByUserIdAsync(string userId)
+        public Task<List<UserPost>> GetAllByUserIdAsync(string userId)
         {
             throw new NotImplementedException(); // Needs implementation
         }
 
-        public async Task<Post> GetByIdAsync(int id)
+        public async Task<UserPost> GetByIdAsync(int id)
         {
-            Post post = await _dbContext.Posts.FirstOrDefaultAsync(i => i.Id == id); // Id prop missing
+            UserPost post = await _dbContext.Posts.FirstOrDefaultAsync(i => i.Id == id); // Id prop missing
             if (post == null) throw new Exception("Post not found");
 
             return post;
         }
 
-        public async Task UpdateAsync(int id, Post newPost) // Updates existing post based on id with new post 
+        public async Task UpdateAsync(int id, UserPost newPost) // Updates existing post based on id with new post 
         {
             if (id < 0 || newPost == null) throw new Exception("Post not found");
-            Post existingPost = await _dbContext.Posts.FirstOrDefaultAsync(i => i.Id == id);
+            UserPost existingPost = await _dbContext.Posts.FirstOrDefaultAsync(i => i.Id == id);
 
             existingPost = newPost;
             await _dbContext.SaveChangesAsync(); 
