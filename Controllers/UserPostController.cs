@@ -16,7 +16,7 @@ namespace LystfiskerPortalen.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll() // Endpoint: "api/userpost/getall"
+        public async Task<ActionResult> GetAll() // Endpoint: "/api/userpost/getall"
         {
             var userPosts = await _userPostRepository.GetAllAsync();
             if (userPosts == null)
@@ -27,7 +27,7 @@ namespace LystfiskerPortalen.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] UserPost userPost) // Endpoint: "api/userpost/post"
+        public async Task<ActionResult> Post([FromForm] UserPost userPost) // Endpoint: "/api/userpost/post"
         {
             if (!ModelState.IsValid) // Checks if model state is valid for the userPost
             {
@@ -38,7 +38,7 @@ namespace LystfiskerPortalen.Controllers
         }
 
         [HttpDelete("{id}")] 
-        public async  Task<ActionResult> Delete(int id) // Endpoint "api/userpost/delete/{id}"
+        public async  Task<ActionResult> Delete(int id) // Endpoint "/api/userpost/delete/{id}"
         {
             if (id <= 0) return BadRequest(); // id needs to be bigger than 0.
             await _userPostRepository.DeleteAsync(id);
