@@ -7,8 +7,8 @@ namespace LystfiskerPortalen.Persistence
 {
     public class UserPostRepository : IUserPostRepository
     {
-        private PostDbContext _dbContext { get; set; }
-        public UserPostRepository(PostDbContext context) //Context from dependency injection
+        private ProjectDbContext _dbContext { get; set; }
+        public UserPostRepository(ProjectDbContext context) //Context from dependency injection
         {
             _dbContext = context; 
         }
