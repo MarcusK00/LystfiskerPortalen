@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LystfiskerPortalen.Data
 {
-    public class PostDbContext : IdentityDbContext
+    public class ProjectDbContext : IdentityDbContext
     {
         public DbSet<UserPost> Posts { get; set; }
 
