@@ -37,13 +37,15 @@ namespace LystfiskerPortalen.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async  Task<ActionResult> DeleteUserPost(int id)
+        [HttpDelete("{id}")] 
+        public async  Task<ActionResult> Delete(int id) // Endpoint "api/userpost/delete/{id}"
         {
-            if (id <= 0) return BadRequest();
+            if (id <= 0) return BadRequest(); // id needs to be bigger than 0.
             await _userPostRepository.DeleteAsync(id);
             return Ok();
         }
+
+
 
 
     } 
