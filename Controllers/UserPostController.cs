@@ -10,7 +10,7 @@ namespace LystfiskerPortalen.Controllers
     public class UserPostController : ControllerBase
     {
         private readonly IUserPostRepository _userPostRepository;
-        public UserPostController(IUserPostRepository userPostRepository) // Dependency injected from Program.cs // Dependency still need implementation
+        public UserPostController(IUserPostRepository userPostRepository) // Dependency injected from Program.cs; Dependency still need implementation
         {
             _userPostRepository = userPostRepository;
         }
@@ -19,7 +19,7 @@ namespace LystfiskerPortalen.Controllers
         public async Task<ActionResult> GetAll() // Endpoint: "api/userpost/getalluserposts"
         {
             var userPosts = await _userPostRepository.GetAllAsync();
-            if(userPosts == null)
+            if (userPosts == null)
             {
                 return NotFound(); // Returns NotFound 404 error code if list is null
             }
@@ -27,7 +27,7 @@ namespace LystfiskerPortalen.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(UserPost userPost) // Endpoint: "api/userpost/post"
+        public async Task<ActionResult> Post([FromForm] UserPost userPost) // Endpoint: "api/userpost/post"
         {
             if (!ModelState.IsValid) // Checks if model state is valid for the userPost
             {
@@ -36,5 +36,15 @@ namespace LystfiskerPortalen.Controllers
             await _userPostRepository.AddAsync(userPost);
             return Ok();
         }
-    }
+
+        [HttpDelete("{id}")]
+        public async  Task<ActionResult> DeleteUserPost(int id)
+        {
+            if (id <= 0) return BadRequest();
+            await _userPostRepository.DeleteAsync(id);
+            return Ok();
+        }
+
+
+    } 
 }
