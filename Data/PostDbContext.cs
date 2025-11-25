@@ -4,13 +4,20 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LystfiskerPortalen.Data
 {
-    public class PostDbContext : IdentityDbContext
+    public class PostDbContext : DbContext
     {
-        public DbSet<UserPost> Posts { get; set; }
+        public PostDbContext(DbContextOptions<PostDbContext> options)
+            : base(options) 
+        {
+        }
 
+        public DbSet<UserPost> Posts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<UserPost>().OwnsOne(p => p.CatchInfo);
         }
+
     }
+
 }
+

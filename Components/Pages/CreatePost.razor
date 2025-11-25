@@ -1,51 +1,73 @@
 ﻿@page "/create-post"
+@using LystfiskerPortalen.Models
+@inject IUserPostRepository UserPostRepository
 
 <h3>Opret nyt opslag</h3>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+<EditForm Model="UserPost" OnValidSubmit="SavePost" FormName="CreatePostForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form class="d-flex">
-                <div class="input-group">
-                    <input class="form-control form-control-lg" type="search" placeholder="Hvor er din fisk fanget?" aria-label="Search">
-                    <button class="btn btn-primary px-4" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
+    <div class="mb-3">
+        <label>Beskrivelse af fangst</label>
+        <InputTextArea @bind-Value="UserPost.Description" class="form-control" rows="3" />
     </div>
-</div>
 
-<div class="mb-3">
-    <label for="formFile" class="form-label">Indsæt billede her</label>
-    <input class="form-control" type="file" id="formFile">
-</div>
+    <div class="mb-3">
+        <label>Fisk art</label>
+        <InputText @bind-Value="UserPost.CatchInfo.Species" class="form-control" />
+    </div>
 
-<div class="CreateCardPost">
-    <label for="exampleFormControlTextarea1" class="form-label">Beskriv din fangst</label>
-    <textarea class="form-control" id="Beskrivelse1" rows="3"></textarea>
-</div>
+    <div class="mb-3">
+        <label>Vægt (kg)</label>
+        <InputNumber @bind-Value="UserPost.CatchInfo.Weight" class="form-control" />
+    </div>
 
-<select class="fish-select" aria-label="Default select example">
-    <option selected>Vælg en fisk</option>
-    <option value="1">Laks</option>
-    <option value="2">Tangnål</option>
-    <option value="3">Brisling</option>
-</select>
+    <div class="mb-3">
+        <label>Længde (cm)</label>
+        <InputNumber @bind-Value="UserPost.CatchInfo.Length" class="form-control" />
+    </div>
 
-<button type="button" class="btn btn-primary">Opret opslag</button>
+    <div class="mb-3">
+        <label>Blink/Lure</label>
+        <InputText @bind-Value="UserPost.CatchInfo.Lure" class="form-control" />
+    </div>
 
-<InputText @bind-Value="lure" placeholder="indtast det anvendte blink"/>
-<InputText @bind-Value="technique" placeholder="Hvilken teknik er brugt?"/>
-<InputNumber @bind-Value="weight" placeholder="Vægt i kg"/>
-<InputNumber @bind-Value="length" placeholder="Længde i cm"/>
+    <div class="mb-3">
+        <label>Teknik</label>
+        <InputText @bind-Value="UserPost.CatchInfo.Technique" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Opret opslag</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success mt-2">@successMessage</div>
+}
 
 @code {
-    string lure {get; set;}
-    string technique {get; set;}
-    double? weight {get; set;}
-    double? length {get; set;}
+    private UserPost UserPost { get; set; } = new UserPost
+        {
+            CatchInfo = new Catch()
+        };
+
+    private string successMessage;
+
+    private async Task SavePost()
+    {
+        try
+        {
+            await UserPostRepository.AddAsync(UserPost);
+            successMessage = "Opslag oprettet!";
+            UserPost = new UserPost { CatchInfo = new Catch() }; 
+        }
+        catch (Exception ex)
+        {
+            successMessage = $"Fejl: {ex.Message}";
+        }
+    }
 }
+
+
+
