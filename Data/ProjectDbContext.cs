@@ -45,9 +45,9 @@ namespace LystfiskerPortalen.Data
 
             // Seed data
             modelBuilder.Entity<Fish>().HasData(
-                new Fish() { Species = "Trout", Id = 0 },
-                new Fish() { Species = "Salmon", Id = 1 },
-                new Fish() { Species = "Pike", Id = 2 }
+                new Fish() { Species = "Trout", Id = 1 },
+                new Fish() { Species = "Salmon", Id = 2 },
+                new Fish() { Species = "Pike", Id = 3 }
             );
 
             modelBuilder.Entity<Location>().HasData(
