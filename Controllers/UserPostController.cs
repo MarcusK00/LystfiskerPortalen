@@ -16,7 +16,7 @@ namespace LystfiskerPortalen.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll() // Endpoint: "api/userpost/getalluserposts"
+        public async Task<ActionResult> GetAll() // Endpoint: "api/userpost/getall"
         {
             var userPosts = await _userPostRepository.GetAllAsync();
             if (userPosts == null)
