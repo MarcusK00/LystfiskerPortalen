@@ -1,6 +1,6 @@
 ﻿namespace LystfiskerPortalen.Models
 {
-    public class Post
+    public class UserPost
     {
         public string ImgSrc { get; set; }
         public string Description { get; set; }

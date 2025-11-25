@@ -1,6 +1,8 @@
 ﻿namespace LystfiskerPortalen.Services
 {
-    public class PostApiService
+    public class UserPostApiService
     {
+
+
     }
 }
