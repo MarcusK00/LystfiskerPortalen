@@ -11,6 +11,7 @@ namespace LystfiskerPortalen
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddHttpClient("UserPostApi");
 
             var app = builder.Build();
 
