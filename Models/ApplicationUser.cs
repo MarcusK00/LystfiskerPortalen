@@ -4,7 +4,7 @@ namespace LystfiskerPortalen.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public List<Post> Posts { get; set; } = new List<Post>();
+        public List<UserPost> Posts { get; set; } = new List<UserPost>();
 
     }
 }
