@@ -36,8 +36,16 @@
     <option value="3">Brisling</option>
 </select>
 
+<button type="button" class="btn btn-primary">Opret opslag</button>
 
+<InputText @bind-Value="lure" placeholder="indtast det anvendte blink"/>
+<InputText @bind-Value="technique" placeholder="Hvilken teknik er brugt?"/>
+<InputNumber @bind-Value="weight" placeholder="Vægt i kg"/>
+<InputNumber @bind-Value="length" placeholder="Længde i cm"/>
 
 @code {
-    
+    string lure {get; set;}
+    string technique {get; set;}
+    double? weight {get; set;}
+    double? length {get; set;}
 }
