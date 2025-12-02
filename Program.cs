@@ -17,6 +17,7 @@ namespace LystfiskerPortalen
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
             builder.Services.AddHttpClient("UserPostApi");
 
             builder.Services.AddDbContext<ProjectDbContext>((options) =>
@@ -50,7 +51,7 @@ namespace LystfiskerPortalen
             app.UseRouting(); // Added for controller endpoints to be routable.
 
             app.UseAuthentication();  // needed for Identity
-            app.UseAuthorization();
+            app.UseAuthorization(); // needed for Identity
 
             app.UseAntiforgery();
 
