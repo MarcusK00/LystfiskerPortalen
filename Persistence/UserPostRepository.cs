@@ -25,7 +25,7 @@ namespace LystfiskerPortalen.Persistence
         public async Task DeleteAsync(int id) // Deletes a post based on an id
         {
             if (id < 0) throw new Exception("Id less than 0");
-            UserPost post = await _dbContext.UserPosts.FirstOrDefaultAsync(i=>i.Id == id); 
+            UserPost? post = await _dbContext.UserPosts.FirstOrDefaultAsync(i=>i.Id == id); 
             _dbContext.UserPosts.Remove(post);
             await _dbContext.SaveChangesAsync();
         }
