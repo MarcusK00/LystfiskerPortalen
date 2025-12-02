@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LystfiskerPortalen.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitRetry : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,7 @@ namespace LystfiskerPortalen.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Species = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Species = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,13 +69,14 @@ namespace LystfiskerPortalen.Migrations
                 name: "Locations",
                 columns: table => new
                 {
-                    Longitude = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Latitude = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: false),
+                    Latitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locations", x => new { x.Longitude, x.Latitude });
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,13 +192,11 @@ namespace LystfiskerPortalen.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Weight = table.Column<double>(type: "float", nullable: false),
-                    Lure = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Lure = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Length = table.Column<double>(type: "float", nullable: false),
-                    Technique = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Technique = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FishId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    LocationLongitude = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LocationLatitude = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    LocationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -209,10 +208,10 @@ namespace LystfiskerPortalen.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Catches_Locations_LocationLongitude_LocationLatitude",
-                        columns: x => new { x.LocationLongitude, x.LocationLatitude },
+                        name: "FK_Catches_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumns: new[] { "Longitude", "Latitude" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -222,22 +221,28 @@ namespace LystfiskerPortalen.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImgSrc = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImgSrc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CatchInfoId = table.Column<int>(type: "int", nullable: false)
+                    CatchId = table.Column<int>(type: "int", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserPosts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserPosts_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserPosts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UserPosts_Catches_CatchInfoId",
-                        column: x => x.CatchInfoId,
+                        name: "FK_UserPosts_Catches_CatchId",
+                        column: x => x.CatchId,
                         principalTable: "Catches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -248,19 +253,29 @@ namespace LystfiskerPortalen.Migrations
                 columns: new[] { "Id", "Species" },
                 values: new object[,]
                 {
-                    { 1, "Trout" },
-                    { 2, "Salmon" },
-                    { 3, "Pike" }
+                    { 1, "Gedde" },
+                    { 2, "Laks" },
+                    { 3, "Torsk" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Locations",
-                columns: new[] { "Latitude", "Longitude", "Id" },
+                columns: new[] { "Id", "Latitude", "Longitude" },
                 values: new object[,]
                 {
-                    { 56.1629m, 10.2034m, 1 },
-                    { 55.6761m, 12.5683m, 2 }
+                    { 1, 56.1629m, 10.2034m },
+                    { 2, 55.6761m, 12.5683m }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Catches",
+                columns: new[] { "Id", "FishId", "Length", "LocationId", "Lure", "Technique", "Weight" },
+                values: new object[] { 1, 1, 1.3200000000000001, 1, "ProMax Blink", "Stod i hjørnet og kastede korn", 2.0499999999999998 });
+
+            migrationBuilder.InsertData(
+                table: "UserPosts",
+                columns: new[] { "Id", "ApplicationUserId", "CatchId", "Description", "ImgSrc", "UserId" },
+                values: new object[] { 1, null, 1, "Fangede lige den her basse igår", "/images/7218726", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -307,14 +322,19 @@ namespace LystfiskerPortalen.Migrations
                 column: "FishId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Catches_LocationLongitude_LocationLatitude",
+                name: "IX_Catches_LocationId",
                 table: "Catches",
-                columns: new[] { "LocationLongitude", "LocationLatitude" });
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPosts_CatchInfoId",
+                name: "IX_UserPosts_ApplicationUserId",
                 table: "UserPosts",
-                column: "CatchInfoId");
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPosts_CatchId",
+                table: "UserPosts",
+                column: "CatchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPosts_UserId",
