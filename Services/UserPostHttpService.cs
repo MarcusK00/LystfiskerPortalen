@@ -1,6 +1,8 @@
-﻿using LystfiskerPortalen.Interfaces;
-using LystfiskerPortalen.Controllers;
+﻿using LystfiskerPortalen.Controllers;
+using LystfiskerPortalen.Interfaces;
 using LystfiskerPortalen.Models;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 
 namespace LystfiskerPortalen.Services
@@ -16,38 +18,73 @@ namespace LystfiskerPortalen.Services
 
         public async Task AddAsync(UserPost userPost)
         {
-     
-            using var httpClient = httpClientFactory.CreateClient();
+
+            var httpClient = httpClientFactory.CreateClient("UserPostApi"); // From middleware with base uri adress.
 
             var json = JsonSerializer.Serialize(userPost);
-            var content = new StringContent(json);
 
-            var response = await httpClient.PostAsync("/api/userpost/post", content);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync("/api/userpost", content);
 
             response.EnsureSuccessStatusCode();
+            Console.WriteLine("Post created!");
         }
 
-        public Task DeleteAsync(UserPost userPost)
+        public async Task DeleteAsync(int id)
+        {
+            var httpClient = httpClientFactory.CreateClient("UserPostApi");
+
+            var response = await httpClient.DeleteAsync($"/api/userpost/{id}");
+
+            response.EnsureSuccessStatusCode();
+
+        }
+
+        public async Task<List<UserPost>> GetAllAsync()
+        {
+            var httpClient = httpClientFactory.CreateClient("UserPostApi");
+
+            var response = await httpClient.GetAsync("/api/userpost/getall");
+
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine("Got response!");
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            // Deserialize into a List of userposts
+            List<UserPost>? posts = JsonSerializer.Deserialize<List<UserPost>>(json, options);
+
+            // Return list
+            return posts!;
+        }
+
+        public async Task<UserPost> GetByIdAsync(int id)
+        {
+            var httpClient = httpClientFactory.CreateClient("UserPostApi");
+
+            var response = await httpClient.GetAsync($"api/userpost/{id}");
+
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine("Got response!");
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            UserPost? userPost = JsonSerializer.Deserialize<UserPost>(json, options);
+
+            return userPost!;
+        }
+
+        public async Task<UserPost> GetByUserIdAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<UserPost>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserPost> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserPost> GetByUserIdAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserPost> UpdateAsync(UserPost userPost)
+        public async Task<UserPost> UpdateAsync(UserPost userPost)
         {
             throw new NotImplementedException();
         }
