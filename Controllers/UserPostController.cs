@@ -15,12 +15,13 @@ namespace LystfiskerPortalen.Controllers
             _userPostRepository = userPostRepository;
         }
 
-        [HttpGet]
+        [HttpGet("getall")]
         public async Task<ActionResult> GetAll() // Endpoint: "/api/userpost/getall"
         {
             var userPosts = await _userPostRepository.GetAllAsync();
             if (userPosts == null)
             {
+                Console.WriteLine("DebugLine24");
                 return NotFound(); // Returns NotFound 404 error code if list is null
             }
             return Ok(userPosts);
