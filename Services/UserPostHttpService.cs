@@ -14,8 +14,9 @@ namespace LystfiskerPortalen.Services
             this.httpClientFactory = httpClientFactory;
         }
 
-        public async void AddAsync(UserPost userPost)
+        public async Task AddAsync(UserPost userPost)
         {
+     
             using var httpClient = httpClientFactory.CreateClient();
 
             var json = JsonSerializer.Serialize(userPost);
@@ -26,7 +27,7 @@ namespace LystfiskerPortalen.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public void DeleteAsync(UserPost userPost)
+        public Task DeleteAsync(UserPost userPost)
         {
             throw new NotImplementedException();
         }
