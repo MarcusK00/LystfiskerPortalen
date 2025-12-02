@@ -1,6 +1,6 @@
 ﻿@page "/create-post"
 @using LystfiskerPortalen.Models
-@* @inject IUserPostHttpService UserPostService *@
+@inject IUserPostRepository UserPostRepository
 
 <h3>Opret nyt opslag</h3>
 
@@ -49,7 +49,7 @@
 @code {
     private UserPost UserPost { get; set; } = new UserPost()
         {
-            CatchInfo = new Catch(),
+            CatchInfo = new Catch() { Fish = new Fish() },
             Description = "New edsciptionsnn"
         };
     private string successMessage;
@@ -58,9 +58,9 @@
     {
         try
         {
-            await UserPostService.AddAsync(UserPost);
+            await UserPostRepository.AddAsync(UserPost);
             successMessage = "Opslag oprettet!";
-            UserPost = new UserPost() { CatchInfo = new Catch() }; 
+            UserPost = new UserPost() { CatchInfo = new Catch() { Fish = new Fish() } }; 
         }
         catch (Exception ex)
         {
@@ -68,6 +68,3 @@
         }
     }
 }
-
-
-

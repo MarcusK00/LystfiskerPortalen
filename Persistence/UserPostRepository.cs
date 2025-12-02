@@ -17,7 +17,7 @@ namespace LystfiskerPortalen.Persistence
             if (post != null)
             {
                 _dbContext.UserPosts.Add(post);
-                await _dbContext.SaveChangesAsync();
+                _dbContext.SaveChanges();
             } 
             throw new Exception("Post not valid");
         }
