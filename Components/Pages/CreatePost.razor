@@ -47,20 +47,20 @@
 }
 
 @code {
-    private UserPost UserPost { get; set; } = new UserPost
+    private UserPost UserPost { get; set; } = new UserPost()
         {
             CatchInfo = new Catch()
         };
-
     private string successMessage;
 
     private async Task SavePost()
     {
+        Console.WriteLine("Description: " + UserPost.Description);
         try
         {
             await UserPostRepository.AddAsync(UserPost);
             successMessage = "Opslag oprettet!";
-            UserPost = new UserPost { CatchInfo = new Catch() }; 
+            UserPost = new UserPost() { CatchInfo = new Catch() }; 
         }
         catch (Exception ex)
         {
