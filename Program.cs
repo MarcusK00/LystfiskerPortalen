@@ -18,7 +18,10 @@ namespace LystfiskerPortalen
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
-            builder.Services.AddHttpClient("UserPostApi");
+            builder.Services.AddHttpClient("UserPostApi", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7114"); // API base URL
+            });
 
             builder.Services.AddDbContext<ProjectDbContext>((options) =>
             {
