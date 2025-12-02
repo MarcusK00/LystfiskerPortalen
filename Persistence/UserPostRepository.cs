@@ -7,8 +7,8 @@ namespace LystfiskerPortalen.Persistence
 {
     public class UserPostRepository : IUserPostRepository
     {
-        private PostDbContext _dbContext { get; set; }
-        public UserPostRepository(PostDbContext context) //Context from dependency injection
+        private ProjectDbContext _dbContext { get; set; }
+        public UserPostRepository(ProjectDbContext context) //Context from dependency injection
         {
             _dbContext = context; 
         }
@@ -16,7 +16,7 @@ namespace LystfiskerPortalen.Persistence
         {
             if (post != null)
             {
-                _dbContext.Posts.Add(post);
+                _dbContext.UserPosts.Add(post);
                 await _dbContext.SaveChangesAsync();
             } 
             throw new Exception("Post not valid");
@@ -25,14 +25,14 @@ namespace LystfiskerPortalen.Persistence
         public async Task DeleteAsync(int id) // Deletes a post based on an id
         {
             if (id < 0) throw new Exception("Id less than 0");
-            var post = await _dbContext.Posts.FirstOrDefaultAsync(i=>i.Id == id); // Id property is missing from Post model
-            _dbContext.Posts.Remove(post);
+            var post = await _dbContext.UserPosts.FirstOrDefaultAsync(i=>i.Id == id); // Id property is missing from Post model
+            _dbContext.UserPosts.Remove(post);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<UserPost>> GetAllAsync() // Gets all the posts
         {
-            return await _dbContext.Posts.ToListAsync();
+            return await _dbContext.UserPosts.ToListAsync();
         }
 
         public Task<List<UserPost>> GetAllByUserIdAsync(string userId)
@@ -42,7 +42,7 @@ namespace LystfiskerPortalen.Persistence
 
         public async Task<UserPost> GetByIdAsync(int id)
         {
-            UserPost post = await _dbContext.Posts.FirstOrDefaultAsync(i => i.Id == id); // Id prop missing
+            UserPost post = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id); // Id prop missing
             if (post == null) throw new Exception("Post not found");
 
             return post;
@@ -51,7 +51,7 @@ namespace LystfiskerPortalen.Persistence
         public async Task UpdateAsync(int id, UserPost newPost) // Updates existing post based on id with new post 
         {
             if (id < 0 || newPost == null) throw new Exception("Post not found");
-            UserPost existingPost = await _dbContext.Posts.FirstOrDefaultAsync(i => i.Id == id);
+            UserPost existingPost = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id);
 
             existingPost = newPost;
             await _dbContext.SaveChangesAsync(); 

@@ -1,8 +1,4 @@
 using LystfiskerPortalen.Components;
-using LystfiskerPortalen.Interfaces;
-using LystfiskerPortalen.Persistence;
-using LystfiskerPortalen.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace LystfiskerPortalen
 {
@@ -14,13 +10,13 @@ namespace LystfiskerPortalen
 
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddHttpClient("UserPostApi");
+            builder.Services.AddDbContext<ProjectDbContext>((options) =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
-            builder.Services.AddDbContext<PostDbContext>(options =>
-     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-
-            builder.Services.AddScoped<IUserPostRepository, UserPostRepository>();
+            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>();
 
             var app = builder.Build();
 

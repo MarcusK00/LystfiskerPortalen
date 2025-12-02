@@ -1,20 +1,17 @@
-﻿public class Catch
+﻿namespace LystfiskerPortalen.Models
 {
-    public string Species { get; set; }
-    public string Lure { get; set; }
-    public double? Weight { get; set; }
-    public double? Length { get; set; }
-    public string Technique { get; set; }
-
-    public Catch() { }
-
-    public Catch(string species, string lure, double? weight, double? length, string technique)
+    public class Catch
     {
-        Species = species;
-        Lure = lure;
-        Weight = weight;
-        Length = length;
-        Technique = technique;
+        public int Id { get; set; }
+        public double Weight { get; set; }
+        public string Lure { get; set; }
+        public double Length { get; set; }
+        public string Technique { get; set; }
+
+        public int FishId { get; set; }
+        public Fish Fish { get; set; }
+
+        public int LocationId { get; set; }
+        public Location Location { get; set; }
     }
 }
-

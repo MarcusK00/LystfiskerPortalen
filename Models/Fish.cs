@@ -2,11 +2,7 @@
 {
     public class Fish
     {
+        public int Id { get; set; }
         public string Species { get; set; }
-
-        public Fish(string species)
-        {
-            Species = species;
-        }
     }
 }
