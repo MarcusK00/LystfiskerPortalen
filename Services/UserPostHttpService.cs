@@ -21,7 +21,7 @@ namespace LystfiskerPortalen.Services
             var json = JsonSerializer.Serialize(userPost);
             var content = new StringContent(json);
 
-            var response = await httpClient.PostAsync("/api/post", content);
+            var response = await httpClient.PostAsync("/api/userpost/post", content);
 
             response.EnsureSuccessStatusCode();
         }
