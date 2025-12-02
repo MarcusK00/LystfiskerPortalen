@@ -3,7 +3,7 @@ namespace LystfiskerPortalen.Interfaces
 {
     public interface IUserPostHttpService
     {
-        public void AddAsync(UserPost userPost);
+        public Task AddAsync(UserPost userPost);
         public void DeleteAsync(UserPost userPost);
         public Task<UserPost> UpdateAsync(UserPost userPost);
         public Task<List<UserPost>> GetAllAsync();

@@ -14,7 +14,7 @@ namespace LystfiskerPortalen.Services
             this.httpClientFactory = httpClientFactory;
         }
 
-        public async void AddAsync(UserPost userPost)
+        public async Task AddAsync(UserPost userPost)
         {
             using var httpClient = httpClientFactory.CreateClient();
 

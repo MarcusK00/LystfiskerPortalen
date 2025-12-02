@@ -1,6 +1,6 @@
 ﻿@page "/create-post"
 @using LystfiskerPortalen.Models
-@inject IUserPostRepository UserPostRepository
+@* @inject IUserPostHttpService UserPostService *@
 
 <h3>Opret nyt opslag</h3>
 
@@ -15,7 +15,7 @@
 
     <div class="mb-3">
         <label>Fisk art</label>
-        <InputText @bind-Value="UserPost.CatchInfo.Species" class="form-control" />
+        <InputText @bind-Value="UserPost.CatchInfo.Fish.Species" class="form-control" />
     </div>
 
     <div class="mb-3">
@@ -49,16 +49,16 @@
 @code {
     private UserPost UserPost { get; set; } = new UserPost()
         {
-            CatchInfo = new Catch()
+            CatchInfo = new Catch(),
+            Description = "New edsciptionsnn"
         };
     private string successMessage;
 
     private async Task SavePost()
     {
-        Console.WriteLine("Description: " + UserPost.Description);
         try
         {
-            await UserPostRepository.AddAsync(UserPost);
+            await UserPostService.AddAsync(UserPost);
             successMessage = "Opslag oprettet!";
             UserPost = new UserPost() { CatchInfo = new Catch() }; 
         }

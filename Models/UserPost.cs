@@ -11,7 +11,4 @@
         public int CatchInfoId { get; set; }
         public Catch CatchInfo { get; set; }
     }
-
-
-    }
 }
