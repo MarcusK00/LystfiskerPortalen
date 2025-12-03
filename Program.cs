@@ -1,8 +1,9 @@
 using LystfiskerPortalen.Components;
 using LystfiskerPortalen.Data;
 using LystfiskerPortalen.Interfaces;
+using LystfiskerPortalen.Models;
 using LystfiskerPortalen.Persistence;
-using LystfiskerPortalen.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LystfiskerPortalen
@@ -15,19 +16,15 @@ namespace LystfiskerPortalen
 
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-            builder.Services.AddScoped<IUserPostHttpService, UserPostHttpService>();
-            builder.Services.AddHttpClient("ApiClient", (client) =>
-            {
-                client.BaseAddress = new Uri("localhost:7114");    
-            });
+            builder.Services.AddHttpClient("UserPostApi");
             builder.Services.AddDbContext<ProjectDbContext>((options) =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddScoped<IUserPostRepository, UserPostRepository>();
-
             //builder.Services.AddIdentity<ApplicationUser, IdentityRole>();
+
+            builder.Services.AddControllers(); // Needed for API controller to work.
 
             var app = builder.Build();
 
@@ -39,7 +36,16 @@ namespace LystfiskerPortalen
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+
+            app.UseRouting(); // Added for controller endpoints to be routable.
+
+            app.UseAuthentication();  // needed for Identity
+            app.UseAuthorization(); // needed for Identity
+
             app.UseAntiforgery();
+
+            app.MapControllers();  // Maps API controllers
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LystfiskerPortalen.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20251202094741_Init")]
-    partial class Init
+    [Migration("20251202113445_InitRetry")]
+    partial class InitRetry
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,18 +107,10 @@ namespace LystfiskerPortalen.Migrations
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("LocationLatitude")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("LocationLongitude")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Lure")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Technique")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Weight")
@@ -128,9 +120,21 @@ namespace LystfiskerPortalen.Migrations
 
                     b.HasIndex("FishId");
 
-                    b.HasIndex("LocationLongitude", "LocationLatitude");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Catches");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FishId = 1,
+                            Length = 1.3200000000000001,
+                            LocationId = 1,
+                            Lure = "ProMax Blink",
+                            Technique = "Stod i hjørnet og kastede korn",
+                            Weight = 2.0499999999999998
+                        });
                 });
 
             modelBuilder.Entity("LystfiskerPortalen.Models.Fish", b =>
@@ -142,7 +146,6 @@ namespace LystfiskerPortalen.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Species")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -153,47 +156,52 @@ namespace LystfiskerPortalen.Migrations
                         new
                         {
                             Id = 1,
-                            Species = "Trout"
+                            Species = "Gedde"
                         },
                         new
                         {
                             Id = 2,
-                            Species = "Salmon"
+                            Species = "Laks"
                         },
                         new
                         {
                             Id = 3,
-                            Species = "Pike"
+                            Species = "Torsk"
                         });
                 });
 
             modelBuilder.Entity("LystfiskerPortalen.Models.Location", b =>
                 {
-                    b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.HasKey("Longitude", "Latitude");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Latitude")
+                        .HasPrecision(9, 6)
+                        .HasColumnType("decimal(9,6)");
+
+                    b.Property<decimal>("Longitude")
+                        .HasPrecision(9, 6)
+                        .HasColumnType("decimal(9,6)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Locations");
 
                     b.HasData(
                         new
                         {
-                            Longitude = 10.2034m,
+                            Id = 1,
                             Latitude = 56.1629m,
-                            Id = 1
+                            Longitude = 10.2034m
                         },
                         new
                         {
-                            Longitude = 12.5683m,
+                            Id = 2,
                             Latitude = 55.6761m,
-                            Id = 2
+                            Longitude = 12.5683m
                         });
                 });
 
@@ -205,15 +213,16 @@ namespace LystfiskerPortalen.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CatchInfoId")
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CatchId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImgSrc")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -221,11 +230,22 @@ namespace LystfiskerPortalen.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CatchInfoId");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CatchId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("UserPosts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CatchId = 1,
+                            Description = "Fangede lige den her basse igår",
+                            ImgSrc = "/images/7218726"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -371,7 +391,7 @@ namespace LystfiskerPortalen.Migrations
 
                     b.HasOne("LystfiskerPortalen.Models.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationLongitude", "LocationLatitude")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -382,17 +402,21 @@ namespace LystfiskerPortalen.Migrations
 
             modelBuilder.Entity("LystfiskerPortalen.Models.UserPost", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.Catch", "CatchInfo")
+                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("LystfiskerPortalen.Models.Catch", "Catch")
                         .WithMany()
-                        .HasForeignKey("CatchInfoId")
+                        .HasForeignKey("CatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LystfiskerPortalen.Models.ApplicationUser", "User")
-                        .WithMany("Posts")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("CatchInfo");
+                    b.Navigation("Catch");
 
                     b.Navigation("User");
                 });

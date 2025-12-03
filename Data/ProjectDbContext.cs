@@ -10,9 +10,8 @@ namespace LystfiskerPortalen.Data
         public DbSet<Catch> Catches { get; set; }
         public DbSet<Fish> Fishes { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<ApplicationUser> Users { get; set; }
 
-        public ProjectDbContext(DbContextOptions options) : base(options) { }  
+        public ProjectDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,38 +20,65 @@ namespace LystfiskerPortalen.Data
             // Configure entities - Add primary keys to owned types
             modelBuilder.Entity<Fish>(entity =>
             {
-                entity.HasKey(f => f.Id); // Or add an Id property
+                entity.HasKey(f => f.Id); 
             });
 
             modelBuilder.Entity<Location>(entity =>
             {
-                entity.HasKey(l => new { l.Longitude, l.Latitude }); // Composite key
+                entity.HasKey(l => l.Id);
+
+                entity.Property(l => l.Latitude)
+                .HasPrecision(9, 6);  // total 9 digits, 6 decimals might need more depending on API returns
+
+                entity.Property(l => l.Longitude)
+                .HasPrecision(9, 6);
             });
 
             modelBuilder.Entity<Catch>(entity =>
             {
-                entity.HasKey(c => c.Id); // You'll need to add Id property
-                entity.HasOne(c => c.Fish);
-                entity.HasOne(c => c.Location);
+                entity.HasKey(c => c.Id); 
+
+                entity.HasOne(c => c.Fish)
+                      .WithMany()
+                      .HasForeignKey(c => c.FishId);
+
+                entity.HasOne(c => c.Location)
+                      .WithMany()
+                      .HasForeignKey(c => c.LocationId);
             });
 
             modelBuilder.Entity<UserPost>(entity =>
             {
                 entity.HasKey(u => u.Id);
-                entity.HasOne(u => u.User);
-                entity.HasOne(u => u.CatchInfo);
+
+                entity.HasOne(u => u.User)
+                      .WithMany(u=>u.Posts)    // ApplicationUser posts property                 
+                      .HasForeignKey(u => u.UserId)
+                       .IsRequired(false); 
+
+                entity.HasOne(u => u.Catch)
+                      .WithMany()
+                      .HasForeignKey(u => u.CatchId);
             });
 
             // Seed data
             modelBuilder.Entity<Fish>().HasData(
-                new Fish() { Species = "Trout", Id = 1 },
-                new Fish() { Species = "Salmon", Id = 2 },
-                new Fish() { Species = "Pike", Id = 3 }
+                new Fish() { Id = 1 , Species = "Gedde" },
+                new Fish() { Id = 2, Species = "Laks",  },
+                new Fish() { Id = 3, Species = "Torsk" }
             );
 
             modelBuilder.Entity<Location>().HasData(
-                new { Longitude = 10.2034m, Latitude = 56.1629m, Id = 1 },
-                new { Longitude = 12.5683m, Latitude = 55.6761m, Id = 2 }
+                new Location() { Id = 1 ,Longitude = 10.2034m, Latitude = 56.1629m },
+                new Location() { Id = 2, Longitude = 12.5683m, Latitude = 55.6761m  }
+            );
+
+            modelBuilder.Entity<Catch>().HasData(
+                new Catch() { Id = 1, Weight = 2.05d, Lure ="ProMax Blink", Technique="Stod i hjørnet og kastede korn", FishId=1, Length=1.32d, LocationId=1}
+            );
+
+            modelBuilder.Entity<UserPost>().HasData(
+            new UserPost() { Id=1,ImgSrc="/images/7218726", Description="Fangede lige den her basse igår", CatchId=1}
             );
         }
     }
