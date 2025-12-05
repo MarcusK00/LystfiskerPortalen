@@ -1,9 +1,9 @@
-﻿using LystfiskerPortalen.Data;
-using LystfiskerPortalen.Interfaces;
+﻿using LystfiskerPortalenAPI.Data;
+using LystfiskerPortalenAPI.Interfaces;
 using LystfiskerPortalen.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LystfiskerPortalen.Persistence
+namespace LystfiskerPortalenAPI.Persistence
 {
     public class UserPostRepository : IUserPostRepository
     {
@@ -48,7 +48,13 @@ namespace LystfiskerPortalen.Persistence
 
         public async Task<UserPost> GetByIdAsync(int id)
         {
-            UserPost? post = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id); // Id prop missing
+            UserPost? post = await _dbContext.UserPosts.Where(u => u.Id == id)
+                     .Include(u => u.User)
+                     .Include(u => u.Catch!)
+                     .ThenInclude(c => c.Fish) // Includes fish property data to JSON
+                     .Include(u => u.Catch!)
+                     .ThenInclude(c => c.Location) // Includes Location prop data to JSON
+                     .FirstOrDefaultAsync();
             if (post == null) throw new Exception("Post not found");
 
             return post;

@@ -1,5 +1,4 @@
-﻿using LystfiskerPortalen.Controllers;
-using LystfiskerPortalen.Interfaces;
+﻿using LystfiskerPortalen.Interfaces;
 using LystfiskerPortalen.Models;
 using System.Net.Http;
 using System.Text;
