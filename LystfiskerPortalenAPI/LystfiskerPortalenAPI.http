@@ -1,0 +1,6 @@
+@LystfiskerPortalenAPI_HostAddress = http://localhost:5195
+
+GET {{LystfiskerPortalenAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
