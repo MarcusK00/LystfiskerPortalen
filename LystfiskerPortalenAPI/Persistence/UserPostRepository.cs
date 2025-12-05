@@ -1,9 +1,9 @@
-﻿using LystfiskerPortalen.Data;
-using LystfiskerPortalen.Interfaces;
+﻿using LystfiskerPortalenAPI.Data;
+using LystfiskerPortalenAPI.Interfaces;
 using LystfiskerPortalen.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LystfiskerPortalen.Persistence
+namespace LystfiskerPortalenAPI.Persistence
 {
     public class UserPostRepository : IUserPostRepository
     {

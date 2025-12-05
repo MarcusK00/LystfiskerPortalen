@@ -2,7 +2,7 @@
 using LystfiskerPortalen.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace LystfiskerPortalen.Data
+namespace LystfiskerPortalenAPI.Data
 {
     public class ProjectDbContext : IdentityDbContext<ApplicationUser>
     {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace LystfiskerPortalen.Migrations
+namespace LystfiskerPortalenAPI.Migrations
 {
     /// <inheritdoc />
     public partial class Init2 : Migration

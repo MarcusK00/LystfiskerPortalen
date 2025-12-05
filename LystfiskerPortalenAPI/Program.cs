@@ -1,4 +1,11 @@
 
+using LystfiskerPortalenAPI.Interfaces;
+using LystfiskerPortalen.Models;
+using LystfiskerPortalenAPI.Persistence;
+using Microsoft.AspNetCore.Identity;
+using LystfiskerPortalenAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace LystfiskerPortalenAPI
 {
     public class Program
@@ -13,6 +20,17 @@ namespace LystfiskerPortalenAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IUserPostRepository, UserPostRepository>();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ProjectDbContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddDbContext<ProjectDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 
