@@ -22,6 +22,7 @@ namespace LystfiskerPortalenAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IUserPostRepository, UserPostRepository>();
+            builder.Services.AddScoped<ILocationRepository, LocationRepository>();
             builder.Services.AddScoped<IFishRepository, FishRepository>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

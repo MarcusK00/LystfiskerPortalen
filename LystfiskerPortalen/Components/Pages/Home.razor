@@ -1,6 +1,48 @@
-﻿
-<PageTitle>Home</PageTitle>
+﻿@page "/"
+@inject IUserPostHttpService UserPostService
+@using LystfiskerPortalen.Models
+@using LystfiskerPortalen.Components.Shared
 
-<h1>Hello, world!</h1>
+<div class="container">
+    <div class="row">
 
-Welcome to your new app.
+        <!-- Venstre sidebar -->
+        <aside class="col-12 col-lg-3">
+            <div class="card mb-3">
+                <div class="card-body">
+                    Profile
+                </div>
+            </div>
+        </aside>
+
+        <!-- Feed (MIDTEN) -->
+        <main class="col-12 col-lg-6">
+            @foreach (var post in Posts)
+            {
+                <FeedPost Post="post"/>
+            }
+        </main>
+
+        <!-- Højre sidebar -->
+        <aside class="col-12 col-lg-3">
+            <div class="card mb-3">
+                <div class="card-body">
+                    Suggested
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</div>
+
+
+@code {
+    private List<UserPost> Posts = new List<UserPost>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Posts = await UserPostService.GetAllAsync();
+    }
+
+
+}
