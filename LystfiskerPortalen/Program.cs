@@ -38,9 +38,6 @@ namespace LystfiskerPortalen
 
             app.UseRouting(); // Added for controller endpoints to be routable.
 
-            app.UseAuthentication();  // needed for Identity
-            app.UseAuthorization(); // needed for Identity
-
             app.UseAntiforgery();
 
             app.MapControllers();  // Maps API controllers

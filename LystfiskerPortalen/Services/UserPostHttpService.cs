@@ -18,7 +18,7 @@ namespace LystfiskerPortalen.Services
         public async Task AddAsync(UserPost userPost)
         {
 
-            var httpClient = httpClientFactory.CreateClient("UserPostApi"); // From middleware with base uri adress.
+            var httpClient = httpClientFactory.CreateClient("LystfiskerPortalenAPI"); // From middleware with base uri adress.
 
             var json = JsonSerializer.Serialize(userPost);
 
@@ -32,7 +32,7 @@ namespace LystfiskerPortalen.Services
 
         public async Task DeleteAsync(int id)
         {
-            var httpClient = httpClientFactory.CreateClient("UserPostApi");
+            var httpClient = httpClientFactory.CreateClient("LystfiskerPortalenAPI");
 
             var response = await httpClient.DeleteAsync($"/api/userpost/{id}");
 
@@ -42,7 +42,7 @@ namespace LystfiskerPortalen.Services
 
         public async Task<List<UserPost>> GetAllAsync()
         {
-            var httpClient = httpClientFactory.CreateClient("UserPostApi");
+            var httpClient = httpClientFactory.CreateClient("LystfiskerPortalenAPI");
 
             var response = await httpClient.GetAsync("/api/userpost/getall");
 
@@ -62,7 +62,7 @@ namespace LystfiskerPortalen.Services
 
         public async Task<UserPost> GetByIdAsync(int id)
         {
-            var httpClient = httpClientFactory.CreateClient("UserPostApi");
+            var httpClient = httpClientFactory.CreateClient("LystfiskerPortalenAPI");
 
             var response = await httpClient.GetAsync($"api/userpost/{id}");
 

@@ -11,7 +11,7 @@ namespace LystfiskerPortalenAPI.Controllers
     public class UserPostController : ControllerBase
     {
         private readonly IUserPostRepository _userPostRepository;
-        public UserPostController(IUserPostRepository userPostRepository) // Dependency injected from Program.cs; Dependency still need implementation
+        public UserPostController(IUserPostRepository userPostRepository) // Dependency injected from Program.cs;
         {
             _userPostRepository = userPostRepository;
         }
