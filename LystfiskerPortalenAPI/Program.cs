@@ -32,6 +32,8 @@ namespace LystfiskerPortalenAPI
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -43,8 +45,8 @@ namespace LystfiskerPortalenAPI
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
+            app.UseAuthentication();  // needed for Identity
+            app.UseAuthorization(); // needed for Identity
 
             app.MapControllers();
 
