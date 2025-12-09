@@ -1,4 +1,5 @@
 ﻿@inject IUserPostHttpService UserPostHttpService
+@inject IFishHttpService FishHttpService
 @page "/create-post"
 <h3>Create Post</h3>
 
@@ -31,7 +32,12 @@
 </EditForm>
 
 @code {
-    private List<Fish> fishes = new List<Fish>() { new() { Species = "Bass" }, new() { Species = "Trout" }, new() { Species = "Carp" }, new() { Species = "Catfish"  } };
+    private List<Fish> fishes = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        fishes = await FishHttpService.GetAllAsync();
+    }
 
     private UserPost post = new UserPost();
 

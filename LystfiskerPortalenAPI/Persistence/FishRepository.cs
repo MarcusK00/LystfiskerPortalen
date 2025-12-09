@@ -13,7 +13,7 @@ namespace LystfiskerPortalenAPI.Persistence
             _dbContext = context;
         }
 
-        public async Task<List<Fish>> GetAllAync()
+        public async Task<List<Fish>> GetAllAsync()
         {
             return await _dbContext.Fishes.ToListAsync();
         }
