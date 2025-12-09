@@ -1,5 +1,7 @@
 using LystfiskerPortalen.Components;
+using LystfiskerPortalen.Interfaces;
 using LystfiskerPortalen.Models;
+using LystfiskerPortalen.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,8 +19,10 @@ namespace LystfiskerPortalen
 
             builder.Services.AddHttpClient("LystfiskerPortalenAPI", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7114"); // API base URL
+                client.BaseAddress = new Uri("https://localhost:7030"); // API base URL
             });
+
+            builder.Services.AddScoped<IUserPostHttpService, UserPostHttpService>();
 
             builder.Services.AddControllers(); // Needed for API controller to work.
 

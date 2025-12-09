@@ -1,0 +1,93 @@
+﻿@using LystfiskerPortalen.Models
+@using System.Globalization
+@using Microsoft.AspNetCore.Components
+
+<div class="row justify-content-center mb-4">
+    <div class="col-12 col-md-10 col-lg-12">
+        <div class="card">
+
+            <!-- Header -->
+            <div class="card-header bg-white border-0">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="fw-semibold">
+                            @Post.User?.UserName ?? "Ukendt bruger"
+                        </div>
+                        <div class="text-muted small">
+                            2 hours ago • @(Post.Catch?.Location?.ToString() ?? "Ukendt lokation")
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-link text-muted p-0">
+                        ...
+                    </button>
+                </div>
+            </div>
+
+            <!-- Billede – samme størrelse for alle -->
+            <div class="ratio ratio-4x3">
+                <img src="@Post.ImgSrc"
+                     alt="Catch"
+                     class="card-img-top img-fluid object-fit-cover" />
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-between px-3 py-2 border-top">
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-link p-0">❤️</button>
+                    <button type="button" class="btn btn-link p-0">💬</button>
+                    <button type="button" class="btn btn-link p-0">ℹ️</button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-link p-0">🔖</button>
+                </div>
+            </div>
+
+            <!-- Indhold -->
+            <div class="card-body pt-2">
+                <div class="small fw-semibold mb-1">
+                    123 likes
+                </div>
+
+                <p class="card-text mb-3">
+                    <span class="fw-semibold me-1">
+                        @("@" + (Post.User?.UserName ?? "bruger"))
+                    </span>
+                    @Post.Description
+                </p>
+
+                <!-- Catch details -->
+                <div class="border rounded-3 p-2 mb-2 bg-light">
+                    <div class="fw-semibold small mb-1">
+                        🐟 Catch Details
+                    </div>
+                    <div class="small">
+                        <div>Lure: @(Post.Catch?.Lure ?? "-")</div>
+                        <div>
+                            Weight:
+                            @(Post.Catch != null
+                                ? Post.Catch.Weight.ToString("0.0", CultureInfo.InvariantCulture) + " kg"
+                                : "-")
+                        </div>
+                        <div>Technique: @(Post.Catch?.Technique ?? "-")</div>
+                    </div>
+                </div>
+
+                <!-- Lokation -->
+                <div class="small text-muted mb-2">
+                    📍 @(Post.Catch?.Location?.ToString() ?? "Ukendt sted")
+                </div>
+
+                <!-- Comments -->
+                <button type="button" class="btn btn-link btn-sm p-0">
+                    View all 10 comments
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public UserPost Post { get; set; } = default!;
+}
