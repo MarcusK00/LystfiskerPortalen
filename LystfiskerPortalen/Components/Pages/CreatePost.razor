@@ -1,5 +1,46 @@
-﻿<h3>CreatePost</h3>
+﻿@inject IUserPostHttpService UserPostHttpService
+@page "/create-post"
+<h3>Create Post</h3>
+
+<EditForm FormName="CreatePost" Model="post" OnValidSubmit="Submit">
+    <label for="description">Description</label>
+    <InputTextArea @bind-Value="post.Description" placeholder="Write something here..." class="form-control mb-2" />
+
+    <label for="fish">Fish</label>
+    <InputSelect @bind-Value="userCatch.Fish" class="form-control mb-2">
+        <option value="" disabled selected>Select Fish</option>
+        @foreach (Fish fish in fishes)
+        {
+            <option value="@fish">@fish.Species</option>
+        }
+    </InputSelect>
+
+    <label for="weight">Weight (kg)</label>
+    <InputNumber @bind-Value="userCatch.Weight" class="form-control mb-2" />
+
+    <label for="length">Length (cm)</label>
+    <InputNumber @bind-Value="userCatch.Length" class="form-control mb-2" />
+
+    <label for="lure">Lure</label>
+    <InputText @bind-Value="userCatch.Lure" class="form-control mb-2" />
+
+    <label for="technique">Technique</label>
+    <InputText @bind-Value="userCatch.Technique" class="form-control mb-2" />
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
 
 @code {
+    private List<Fish> fishes = new List<Fish>() { new() { Species = "Bass" }, new() { Species = "Trout" }, new() { Species = "Carp" }, new() { Species = "Catfish"  } };
 
+    private UserPost post = new UserPost();
+
+    private Catch userCatch = new Catch();
+
+    private async void Submit()
+    {
+        post.Catch = userCatch;
+
+        await UserPostHttpService.AddAsync(post);
+    }
 }
