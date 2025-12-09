@@ -1,0 +1,27 @@
+﻿@using LystfiskerPortalen.Models
+@using System.Globalization
+
+@if (Catch is not null)
+{
+    <div class="border rounded-3 p-2 mb-2 bg-light">
+        <div class="fw-semibold small mb-1">
+            🐟 Catch Details
+        </div>
+
+        <div class="small">
+            <div>Lure: @(Catch.Lure ?? "-")</div>
+
+            <div>
+                Weight:
+                @Catch.Weight.ToString("0.0", CultureInfo.InvariantCulture) kg
+            </div>
+
+            <div>Technique: @(Catch.Technique ?? "-")</div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Catch? Catch { get; set; }
+}

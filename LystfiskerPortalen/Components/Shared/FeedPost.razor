@@ -57,21 +57,7 @@
                 </p>
 
                 <!-- Catch details -->
-                <div class="border rounded-3 p-2 mb-2 bg-light">
-                    <div class="fw-semibold small mb-1">
-                        🐟 Catch Details
-                    </div>
-                    <div class="small">
-                        <div>Lure: @(Post.Catch?.Lure ?? "-")</div>
-                        <div>
-                            Weight:
-                            @(Post.Catch != null
-                                ? Post.Catch.Weight.ToString("0.0", CultureInfo.InvariantCulture) + " kg"
-                                : "-")
-                        </div>
-                        <div>Technique: @(Post.Catch?.Technique ?? "-")</div>
-                    </div>
-                </div>
+                <CatchDetails Catch="Post.Catch" />
 
                 <!-- Lokation -->
                 <div class="small text-muted mb-2">
