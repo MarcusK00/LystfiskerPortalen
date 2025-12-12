@@ -1,5 +1,5 @@
-﻿using LystfiskerPortalen.Models;
-using LystfiskerPortalenAPI.Data;
+﻿using LystfiskerPortalenShared.Models;
+using LystfiskerPortalenShared.Data;
 using LystfiskerPortalenAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,10 +49,10 @@ namespace LystfiskerPortalenAPI.Persistence
             return userCatch;
         }
 
-        public async Task UpdateAsync(int id, UserPost newPost) // Updates existing post based on id with new post 
+        public async Task UpdateAsync(int id, Catch newPost) // Updates existing post based on id with new post 
         {
             if (id < 0 || newPost == null) throw new Exception("Post not found");
-            UserPost? existingPost = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id);
+            Catch? existingPost = await _dbContext.Catches.FirstOrDefaultAsync(i => i.Id == id);
 
             existingPost = newPost;
             await _dbContext.SaveChangesAsync();
