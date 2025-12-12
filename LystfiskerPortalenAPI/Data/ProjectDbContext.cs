@@ -40,11 +40,11 @@ namespace LystfiskerPortalenAPI.Data
 
                 entity.HasOne(c => c.Fish)
                       .WithMany()
-                      .HasForeignKey(c => c.Fish.Id);
+                      .HasForeignKey(c => c.FishId);
 
                 entity.HasOne(c => c.Location)
                       .WithMany()
-                      .HasForeignKey(c => c.Location.Id);
+                      .HasForeignKey(c => c.LocationId);
             });
 
             modelBuilder.Entity<UserPost>(entity =>
@@ -74,7 +74,7 @@ namespace LystfiskerPortalenAPI.Data
             );
 
             modelBuilder.Entity<Catch>().HasData(
-                new Catch() { Id = 1, Weight = 2.05d, Lure = "ProMax Blink", Technique = "Stod i hjørnet og kastede korn", Length = 1.32d}
+                new Catch() { Id = 1, Weight = 2.05d, Lure = "ProMax Blink", Technique = "Stod i hjørnet og kastede korn", FishId = 1, Length = 1.32d, LocationId = 1}
             );
 
             modelBuilder.Entity<UserPost>().HasData(
