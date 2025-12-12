@@ -1,4 +1,4 @@
-﻿using LystfiskerPortalen.Models;
+﻿using LystfiskerPortalenShared.Models;
 using LystfiskerPortalenAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

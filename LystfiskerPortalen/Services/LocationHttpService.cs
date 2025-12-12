@@ -1,5 +1,5 @@
 ﻿using LystfiskerPortalen.Interfaces;
-using LystfiskerPortalen.Models;
+using LystfiskerPortalenShared.Models;
 using System.Text.Json;
 
 namespace LystfiskerPortalen.Services

@@ -1,7 +1,7 @@
 ﻿using LystfiskerPortalen.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using LystfiskerPortalen.Models;
+using LystfiskerPortalenShared.Models;
 using LystfiskerPortalenAPI.Interfaces;
 
 namespace LystfiskerPortalenAPI.Controllers

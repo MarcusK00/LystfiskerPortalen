@@ -1,6 +1,6 @@
-﻿using LystfiskerPortalenAPI.Data;
+﻿using LystfiskerPortalenShared.Data;
 using LystfiskerPortalenAPI.Interfaces;
-using LystfiskerPortalen.Models;
+using LystfiskerPortalenShared.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LystfiskerPortalenAPI.Persistence

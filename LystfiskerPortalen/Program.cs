@@ -1,9 +1,12 @@
 using LystfiskerPortalen.Components;
 using LystfiskerPortalen.Interfaces;
-using LystfiskerPortalen.Models;
+using LystfiskerPortalenShared.Models;
 using LystfiskerPortalen.Services;
+using LystfiskerPortalenShared.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using LystfiskerPortalen.Components.Account;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace LystfiskerPortalen
 {
@@ -25,6 +28,31 @@ namespace LystfiskerPortalen
             builder.Services.AddScoped<IUserPostHttpService, UserPostHttpService>(); // Injects HttpService
 
             builder.Services.AddControllers(); // Needed for API controller to work.
+
+            builder.Services.AddDbContext<ProjectDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddCascadingAuthenticationState();
+
+            builder.Services.AddScoped<IdentityUserAccessor>();
+
+            builder.Services.AddScoped<IdentityRedirectManager>();
+
+            builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+            builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    })
+    .AddIdentityCookies();
+
+            builder.Services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ProjectDbContext>()
+    .AddSignInManager()
+    .AddDefaultTokenProviders();
+
+            builder.Services.AddSingleton<IEmailSender<IdentityUser>, IdentityNoOpEmailSender>();
 
             var app = builder.Build();
 
@@ -48,6 +76,8 @@ namespace LystfiskerPortalen
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
+
+            app.MapAdditionalIdentityEndpoints(); ;
 
             app.Run();
         }

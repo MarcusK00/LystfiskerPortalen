@@ -1,4 +1,4 @@
-﻿namespace LystfiskerPortalen.Models
+﻿namespace LystfiskerPortalenShared.Models
 {
     public class Catch
     {

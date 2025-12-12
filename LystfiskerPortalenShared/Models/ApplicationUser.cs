@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace LystfiskerPortalen.Models
+namespace LystfiskerPortalenShared.Models
 {
     public class ApplicationUser : IdentityUser
     {

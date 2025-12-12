@@ -1,9 +1,9 @@
 
 using LystfiskerPortalenAPI.Interfaces;
-using LystfiskerPortalen.Models;
+using LystfiskerPortalenShared.Models;
 using LystfiskerPortalenAPI.Persistence;
 using Microsoft.AspNetCore.Identity;
-using LystfiskerPortalenAPI.Data;
+using LystfiskerPortalenShared.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace LystfiskerPortalenAPI
@@ -33,8 +33,6 @@ namespace LystfiskerPortalenAPI
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-
-
 
             var app = builder.Build();
 

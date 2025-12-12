@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LystfiskerPortalenShared\LystfiskerPortalenShared.csproj" />
     <ProjectReference Include="..\LystfiskerPortalen\LystfiskerPortalen.csproj" />
   </ItemGroup>
 

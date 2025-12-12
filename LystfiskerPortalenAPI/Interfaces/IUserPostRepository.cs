@@ -1,4 +1,4 @@
-﻿using LystfiskerPortalen.Models;
+﻿using LystfiskerPortalenShared.Models;
 
 namespace LystfiskerPortalenAPI.Interfaces
 {

@@ -1,5 +1,5 @@
-﻿using LystfiskerPortalen.Models;
-using LystfiskerPortalenAPI.Data;
+﻿using LystfiskerPortalenShared.Models;
+using LystfiskerPortalenShared.Data;
 using LystfiskerPortalenAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
