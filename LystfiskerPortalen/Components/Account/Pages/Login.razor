@@ -21,7 +21,7 @@
 
     <div class="login-card">
         <div class="login-header">
-            <h3>Login</h3>
+            <h3>Log ind</h3>
         </div>
 
         <StatusMessage Message="@errorMessage" />
@@ -31,29 +31,29 @@
 
             <div class="form-group icon-input">
                 <span class="icon">👤</span>
-                <InputText @bind-Value="Input.Email" class="form-input" autocomplete="username" placeholder="Username" />
+                <InputText @bind-Value="Input.Email" class="form-input" autocomplete="username" placeholder="Email" />
             </div>
             <ValidationMessage For="() => Input.Email" class="text-danger" />
 
             <div class="form-group icon-input">
                 <span class="icon">🔒</span>
-                <InputText type="password" @bind-Value="Input.Password" class="form-input" autocomplete="current-password" placeholder="Password" />
+                <InputText type="password" @bind-Value="Input.Password" class="form-input" autocomplete="current-password" placeholder="Adgangskode" />
             </div>
             <ValidationMessage For="() => Input.Password" class="text-danger" />
 
             <div class="form-options">
                 <label class="checkbox-container">
                     <InputCheckbox @bind-Value="Input.RememberMe" />
-                    <span>Remember Me</span>
+                    <span>Husk mig</span>
                 </label>
-                <a href="Account/ForgotPassword" class="forgot-link">Forget Password?</a>
+                <a href="Account/ForgotPassword" class="forgot-link">Glemt adgangskode?</a>
             </div>
 
-            <button type="submit" class="btn-login">Login</button>
+            <button type="submit" class="btn-login">Log Ind</button>
 
             <div class="register-link">
-                Don't have an account?
-                <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register</a>
+                Har du ikke en bruger?
+                <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Opret Bruger</a>
             </div>
         </EditForm>
     </div>
@@ -112,7 +112,7 @@
         [DataType(DataType.Password)]
         public string Password { get; set; } = "";
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Husk mig?")]
         public bool RememberMe { get; set; }
     }
 }
