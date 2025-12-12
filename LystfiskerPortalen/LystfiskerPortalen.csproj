@@ -27,4 +27,10 @@
     <ProjectReference Include="..\LystfiskerPortalenShared\LystfiskerPortalenShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\Images\Loginvid.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
