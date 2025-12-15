@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LystfiskerPortalen.Migrations
 {
     /// <inheritdoc />
-    public partial class InitRetry : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -224,17 +224,11 @@ namespace LystfiskerPortalen.Migrations
                     ImgSrc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CatchId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CatchId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserPosts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserPosts_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserPosts_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -274,8 +268,8 @@ namespace LystfiskerPortalen.Migrations
 
             migrationBuilder.InsertData(
                 table: "UserPosts",
-                columns: new[] { "Id", "ApplicationUserId", "CatchId", "Description", "ImgSrc", "UserId" },
-                values: new object[] { 1, null, 1, "Fangede lige den her basse igår", "/images/7218726", null });
+                columns: new[] { "Id", "CatchId", "Description", "ImgSrc", "UserId" },
+                values: new object[] { 1, 1, "Fangede lige den her basse igår", "/images/7218726", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -325,11 +319,6 @@ namespace LystfiskerPortalen.Migrations
                 name: "IX_Catches_LocationId",
                 table: "Catches",
                 column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserPosts_ApplicationUserId",
-                table: "UserPosts",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPosts_CatchId",

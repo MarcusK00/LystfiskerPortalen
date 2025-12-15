@@ -6,6 +6,8 @@ using LystfiskerPortalen.Data;
 using LystfiskerPortalen.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using LystfiskerPortalen.Components.Account;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace LystfiskerPortalen
 {
@@ -21,7 +23,7 @@ namespace LystfiskerPortalen
 
             builder.Services.AddHttpClient("LystfiskerPortalenAPI", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7030"); // API base URL
+                client.BaseAddress = new Uri("https://localhost:7114"); // API base URL
             });
 
             builder.Services.AddScoped<IUserPostHttpService, UserPostHttpService>(); // Injects HttpService
@@ -46,6 +48,16 @@ namespace LystfiskerPortalen
 
             builder.Services.AddControllers(); // Needed for API controller to work.
 
+            builder.Services.AddCascadingAuthenticationState();
+
+            builder.Services.AddScoped<IdentityUserAccessor>();
+
+            builder.Services.AddScoped<IdentityRedirectManager>();
+
+            builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+            builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -54,7 +66,10 @@ namespace LystfiskerPortalen
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
 
+            if (app.Environment.IsDevelopment())
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
@@ -65,12 +80,17 @@ namespace LystfiskerPortalen
 
             app.UseRouting(); // Added for controller endpoints to be routable.
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseAntiforgery();
 
             app.MapControllers();  // Maps API controllers
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
+
+            app.MapAdditionalIdentityEndpoints(); ;
 
             app.Run();
         }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LystfiskerPortalen.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20251202113445_InitRetry")]
-    partial class InitRetry
+    [Migration("20251215102232_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -213,9 +213,6 @@ namespace LystfiskerPortalen.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("CatchId")
                         .HasColumnType("int");
 
@@ -229,8 +226,6 @@ namespace LystfiskerPortalen.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CatchId");
 
@@ -402,10 +397,6 @@ namespace LystfiskerPortalen.Migrations
 
             modelBuilder.Entity("LystfiskerPortalen.Models.UserPost", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("LystfiskerPortalen.Models.Catch", "Catch")
                         .WithMany()
                         .HasForeignKey("CatchId")
@@ -413,7 +404,7 @@ namespace LystfiskerPortalen.Migrations
                         .IsRequired();
 
                     b.HasOne("LystfiskerPortalen.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Catch");
