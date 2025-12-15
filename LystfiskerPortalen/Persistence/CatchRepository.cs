@@ -18,14 +18,14 @@ namespace LystfiskerPortalen.Persistence
             await _dbContext.Catches.AddAsync(userCatch);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _dbContext.Catches.Where(c => c.Id == id).ExecuteDeleteAsync();
         }
 
-        public Task<List<Catch>> GetAllAsync()
+        public async Task<List<Catch>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Catches.ToListAsync();
         }
 
         public async Task<Catch> GetByIdAsync(int id)
