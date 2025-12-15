@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LystfiskerPortalenAPI.Migrations
+namespace LystfiskerPortalenShared.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20251205123539_WebAPI")]
-    partial class WebAPI
+    [Migration("20251209113156_NewFishAndLocation")]
+    partial class NewFishAndLocation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LystfiskerPortalenAPI.Migrations
+namespace LystfiskerPortalenShared.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20251209113156_NewFishAndLocation")]
-    partial class NewFishAndLocation
+    [Migration("20251212114901_AddCatches")]
+    partial class AddCatches
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace LystfiskerPortalenAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.ApplicationUser", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -90,7 +90,7 @@ namespace LystfiskerPortalenAPI.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.Catch", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.Catch", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,7 +137,7 @@ namespace LystfiskerPortalenAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.Fish", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.Fish", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -170,7 +170,7 @@ namespace LystfiskerPortalenAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.Location", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.Location", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,7 +205,7 @@ namespace LystfiskerPortalenAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.UserPost", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.UserPost", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -376,15 +376,15 @@ namespace LystfiskerPortalenAPI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.Catch", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.Catch", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.Fish", "Fish")
+                    b.HasOne("LystfiskerPortalenShared.Models.Fish", "Fish")
                         .WithMany()
                         .HasForeignKey("FishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LystfiskerPortalen.Models.Location", "Location")
+                    b.HasOne("LystfiskerPortalenShared.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -395,15 +395,15 @@ namespace LystfiskerPortalenAPI.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.UserPost", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.UserPost", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.Catch", "Catch")
+                    b.HasOne("LystfiskerPortalenShared.Models.Catch", "Catch")
                         .WithMany()
                         .HasForeignKey("CatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", "User")
+                    b.HasOne("LystfiskerPortalenShared.Models.ApplicationUser", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
 
@@ -423,7 +423,7 @@ namespace LystfiskerPortalenAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", null)
+                    b.HasOne("LystfiskerPortalenShared.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -432,7 +432,7 @@ namespace LystfiskerPortalenAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", null)
+                    b.HasOne("LystfiskerPortalenShared.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -447,7 +447,7 @@ namespace LystfiskerPortalenAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", null)
+                    b.HasOne("LystfiskerPortalenShared.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -456,14 +456,14 @@ namespace LystfiskerPortalenAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", null)
+                    b.HasOne("LystfiskerPortalenShared.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LystfiskerPortalen.Models.ApplicationUser", b =>
+            modelBuilder.Entity("LystfiskerPortalenShared.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Posts");
                 });

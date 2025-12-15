@@ -24,6 +24,7 @@ namespace LystfiskerPortalenAPI
             builder.Services.AddScoped<IUserPostRepository, UserPostRepository>();
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
             builder.Services.AddScoped<IFishRepository, FishRepository>();
+            builder.Services.AddScoped<ICatchRepository, CatchRepository>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ProjectDbContext>()

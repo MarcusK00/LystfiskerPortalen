@@ -9,7 +9,7 @@
         public string? Technique { get; set; }
 
         public int FishId { get; set; }
-        public Fish Fish { get; set; }
+        public Fish? Fish { get; set; }
 
         public int LocationId { get; set; }
         public Location? Location { get; set; }

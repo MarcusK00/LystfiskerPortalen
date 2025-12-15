@@ -28,6 +28,7 @@ namespace LystfiskerPortalen
             builder.Services.AddScoped<IUserPostHttpService, UserPostHttpService>(); // Injects HttpService
             builder.Services.AddScoped<IFishHttpService, FishHttpService>();
             builder.Services.AddScoped<ILocationHttpService, LocationHttpService>();
+            builder.Services.AddScoped<ICatchHttpService, CatchHttpService>();
 
             builder.Services.AddControllers(); // Needed for API controller to work.
 

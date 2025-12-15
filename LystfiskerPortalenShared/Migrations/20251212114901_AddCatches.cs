@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace LystfiskerPortalenAPI.Migrations
+namespace LystfiskerPortalenShared.Migrations
 {
     /// <inheritdoc />
-    public partial class NewFishAndLocation : Migration
+    public partial class AddCatches : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -19,7 +19,7 @@ namespace LystfiskerPortalenAPI.Persistence
                 _dbContext.Catches.Add(userCatch);
                 await _dbContext.SaveChangesAsync();
             }
-            throw new Exception("Catch not valid");
+            //throw new Exception("Catch not valid");
         }
 
         public async Task DeleteAsync(int id) // Deletes a post based on an id

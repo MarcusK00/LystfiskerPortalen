@@ -9,18 +9,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LystfiskerPortalenAPI.Migrations
+namespace LystfiskerPortalenShared.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20251202113445_InitRetry")]
-    partial class InitRetry
+    [Migration("20251205123539_WebAPI")]
+    partial class WebAPI
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -213,9 +213,6 @@ namespace LystfiskerPortalenAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("CatchId")
                         .HasColumnType("int");
 
@@ -229,8 +226,6 @@ namespace LystfiskerPortalenAPI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CatchId");
 
@@ -402,10 +397,6 @@ namespace LystfiskerPortalenAPI.Migrations
 
             modelBuilder.Entity("LystfiskerPortalen.Models.UserPost", b =>
                 {
-                    b.HasOne("LystfiskerPortalen.Models.ApplicationUser", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("LystfiskerPortalen.Models.Catch", "Catch")
                         .WithMany()
                         .HasForeignKey("CatchId")
@@ -413,7 +404,7 @@ namespace LystfiskerPortalenAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("LystfiskerPortalen.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Catch");
