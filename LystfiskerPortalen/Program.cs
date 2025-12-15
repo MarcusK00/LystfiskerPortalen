@@ -37,6 +37,9 @@ namespace LystfiskerPortalen
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
             builder.Services.AddScoped<IFishRepository, FishRepository>();
 
+            builder.Services.AddScoped<IFishHttpService, FishHttpService>();
+            builder.Services.AddScoped<IUserPostHttpService, UserPostHttpService>();
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ProjectDbContext>()
                 .AddDefaultTokenProviders();
