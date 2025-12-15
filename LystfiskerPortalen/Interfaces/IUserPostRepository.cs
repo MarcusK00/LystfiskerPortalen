@@ -1,6 +1,6 @@
 ﻿using LystfiskerPortalen.Models;
 
-namespace LystfiskerPortalenAPI.Interfaces
+namespace LystfiskerPortalen.Interfaces
 {
     public interface IUserPostRepository
     {

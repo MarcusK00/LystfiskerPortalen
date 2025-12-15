@@ -1,9 +1,9 @@
 ﻿using LystfiskerPortalen.Models;
-using LystfiskerPortalenAPI.Data;
-using LystfiskerPortalenAPI.Interfaces;
+using LystfiskerPortalen.Data;
+using LystfiskerPortalen.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LystfiskerPortalenAPI.Persistence
+namespace LystfiskerPortalen.Persistence
 {
     public class LocationRepository : ILocationRepository
     {

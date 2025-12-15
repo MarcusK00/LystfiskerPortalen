@@ -1,8 +1,8 @@
 ﻿using LystfiskerPortalen.Models;
-using LystfiskerPortalenAPI.Interfaces;
+using LystfiskerPortalen.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LystfiskerPortalenAPI.Controllers
+namespace LystfiskerPortalen.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
