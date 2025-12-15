@@ -7,7 +7,6 @@
         public string? Description { get; set; }
         public string? UserId { get; set; }   // FK
         public ApplicationUser? User { get; set; }  // Navigation
-
         public int CatchId { get; set; }
         public Catch? Catch { get; set; }
     }
