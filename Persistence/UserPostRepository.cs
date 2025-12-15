@@ -25,14 +25,20 @@ namespace LystfiskerPortalen.Persistence
         public async Task DeleteAsync(int id) // Deletes a post based on an id
         {
             if (id < 0) throw new Exception("Id less than 0");
-            var post = await _dbContext.UserPosts.FirstOrDefaultAsync(i=>i.Id == id); // Id property is missing from Post model
+            UserPost? post = await _dbContext.UserPosts.FirstOrDefaultAsync(i=>i.Id == id); 
             _dbContext.UserPosts.Remove(post);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<UserPost>> GetAllAsync() // Gets all the posts
         {
-            return await _dbContext.UserPosts.ToListAsync();
+            return await _dbContext.UserPosts
+                     .Include(u => u.User)
+                     .Include(u => u.Catch!)
+                     .ThenInclude(c => c.Fish) // Includes fish property data to JSON
+                     .Include(u => u.Catch!)
+                     .ThenInclude(c => c.Location) // Includes Location prop data to JSON
+                     .ToListAsync(); 
         }
 
         public Task<List<UserPost>> GetAllByUserIdAsync(string userId)
@@ -42,7 +48,7 @@ namespace LystfiskerPortalen.Persistence
 
         public async Task<UserPost> GetByIdAsync(int id)
         {
-            UserPost post = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id); // Id prop missing
+            UserPost? post = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id); // Id prop missing
             if (post == null) throw new Exception("Post not found");
 
             return post;
@@ -51,7 +57,7 @@ namespace LystfiskerPortalen.Persistence
         public async Task UpdateAsync(int id, UserPost newPost) // Updates existing post based on id with new post 
         {
             if (id < 0 || newPost == null) throw new Exception("Post not found");
-            UserPost existingPost = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id);
+            UserPost? existingPost = await _dbContext.UserPosts.FirstOrDefaultAsync(i => i.Id == id);
 
             existingPost = newPost;
             await _dbContext.SaveChangesAsync(); 

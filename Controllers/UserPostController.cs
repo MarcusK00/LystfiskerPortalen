@@ -15,19 +15,20 @@ namespace LystfiskerPortalen.Controllers
             _userPostRepository = userPostRepository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetAll() // Endpoint: "/api/userpost/getall"
+        [HttpGet("getall")]
+        public async Task<ActionResult> GetAll() // Endpoint: "localhost:7114/api/userpost/getall"
         {
             var userPosts = await _userPostRepository.GetAllAsync();
             if (userPosts == null)
             {
+                Console.WriteLine("DebugLine24");
                 return NotFound(); // Returns NotFound 404 error code if list is null
             }
             return Ok(userPosts);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] UserPost userPost) // Endpoint: "/api/userpost/post"
+        public async Task<ActionResult> Post([FromForm] UserPost userPost) // Endpoint: "localhost:7114/api/userpost"
         {
             if (!ModelState.IsValid) // Checks if model state is valid for the userPost
             {
@@ -38,7 +39,7 @@ namespace LystfiskerPortalen.Controllers
         }
 
         [HttpDelete("{id}")] 
-        public async  Task<ActionResult> Delete(int id) // Endpoint "/api/userpost/delete/{id}"
+        public async  Task<ActionResult> Delete(int id) // Endpoint "localhost:7114/api/userpost/{id}"
         {
             if (id <= 0) return BadRequest(); // id needs to be bigger than 0.
             await _userPostRepository.DeleteAsync(id);
@@ -46,7 +47,7 @@ namespace LystfiskerPortalen.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id) // Endpoint "/api/userpost/getbyid/{id}"
+        public async Task<ActionResult> GetById(int id) // Endpoint "localhost:7114/api/userpost/{id}"
         {
             if (id <= 0) return BadRequest(); // id needs to be bigger than 0.
             var existingUserPost = await _userPostRepository.GetByIdAsync(id);
