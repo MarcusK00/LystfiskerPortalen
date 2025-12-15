@@ -1,11 +1,13 @@
 ﻿@page "/Account/Register"
+@layout LystfiskerPortalen.Components.Layout.EmptyLayout
 
 @using System.ComponentModel.DataAnnotations
 @using System.Text
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using LystfiskerPortalen.Data
+
+
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserStore<ApplicationUser> UserStore
@@ -15,42 +17,51 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Register</PageTitle>
+<PageTitle>Opret bruger</PageTitle>
 
-<h1>Register</h1>
+<div class="login-container">
 
-<div class="row">
-    <div class="col-md-4">
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="/Images/Loginvid.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <div class="login-card">
+        <div class="login-header">
+            <h3>Opret Bruger</h3>
+            <p style="color:rgba(255,255,255,0.7); font-size:0.9rem;">Start dit fiskeeventyr her 🎣</p>
+        </div>
+
         <StatusMessage Message="@Message" />
+
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
-            <h2>Create a new account.</h2>
-            <hr />
-            <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label for="email">Email</label>
-                <ValidationMessage For="() => Input.Email" class="text-danger" />
+
+            <div class="form-group icon-input">
+                <span class="icon">👤</span>
+                <InputText @bind-Value="Input.Email" class="form-input" autocomplete="username" placeholder="Email" />
             </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label for="password">Password</label>
-                <ValidationMessage For="() => Input.Password" class="text-danger" />
+            <ValidationMessage For="() => Input.Email" class="text-danger" />
+
+            <div class="form-group icon-input">
+                <span class="icon">🔒</span>
+                <InputText type="password" @bind-Value="Input.Password" class="form-input" autocomplete="new-password" placeholder="Adgangskode" />
             </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label for="confirm-password">Confirm Password</label>
-                <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+            <ValidationMessage For="() => Input.Password" class="text-danger" />
+
+            <div class="form-group icon-input">
+                <span class="icon">🔐</span>
+                <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-input" autocomplete="new-password" placeholder="Bekræft adgangskode" />
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+
+            <button type="submit" class="btn-login">Opret bruger</button>
+
+            <div class="register-link">
+                Har du allerede en konto?
+                <a href="Account/Login">Log ind</a>
+            </div>
         </EditForm>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
     </div>
 </div>
 
@@ -63,7 +74,7 @@
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
-    private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
+    private string? Message => identityErrors is null ? null : $"Fejl: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
     public async Task RegisterUser(EditContext editContext)
     {
@@ -102,6 +113,7 @@
         RedirectManager.RedirectTo(ReturnUrl);
     }
 
+    // Her er ændringen: Returnerer ApplicationUser
     private ApplicationUser CreateUser()
     {
         try
@@ -115,6 +127,7 @@
         }
     }
 
+    // Her er ændringen: Bruger IUserEmailStore<ApplicationUser>
     private IUserEmailStore<ApplicationUser> GetEmailStore()
     {
         if (!UserManager.SupportsUserEmail)
@@ -132,14 +145,14 @@
         public string Email { get; set; } = "";
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} skal være mindst {2} og maks {1} tegn lang.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; } = "";
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Adgangskoderne er ikke ens.")]
         public string ConfirmPassword { get; set; } = "";
     }
 }

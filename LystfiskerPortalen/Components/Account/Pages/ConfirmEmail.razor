@@ -3,14 +3,17 @@
 @using System.Text
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using LystfiskerPortalen.Data
+@using LystfiskerPortalen.Models
+@using LystfiskerPortalen.Components.Account
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Confirm email</PageTitle>
+<PageTitle>Bekræfter email...</PageTitle>
 
-<h1>Confirm email</h1>
+@* Denne besked vises kun, hvis der opstår en fejl. 
+   Ved succes bliver man viderestillet med det samme. *@
+<h1>Bekræfter email</h1>
 <StatusMessage Message="@statusMessage" />
 
 @code {
@@ -27,6 +30,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // Hvis linket mangler data, send til forsiden
         if (UserId is null || Code is null)
         {
             RedirectManager.RedirectTo("");
@@ -36,13 +40,25 @@
         if (user is null)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-            statusMessage = $"Error loading user with ID {UserId}";
+            statusMessage = $"Fejl: Kunne ikke finde bruger med ID '{UserId}'.";
         }
         else
         {
+            // Afkod bekræftelseskoden fra linket
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
+            
+            // Forsøg at bekræfte emailen hos Identity
             var result = await UserManager.ConfirmEmailAsync(user, code);
-            statusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            
+            if (result.Succeeded)
+            {
+                // SUCCESS: Send brugeren direkte til Login-siden
+                RedirectManager.RedirectTo("Account/Login");
+            }
+            else
+            {
+                statusMessage = "Fejl: Kunne ikke bekræfte din email.";
+            }
         }
     }
 }

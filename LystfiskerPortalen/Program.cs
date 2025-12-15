@@ -37,7 +37,11 @@ namespace LystfiskerPortalen
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
             builder.Services.AddScoped<IFishRepository, FishRepository>();
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            // HER ER ÆNDRINGEN: Vi har tilføjet options => ...
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+            })
                 .AddEntityFrameworkStores<ProjectDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -46,7 +50,8 @@ namespace LystfiskerPortalen
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddControllers(); // Needed for API controller to work.
+            // Du havde denne linje to gange i din kode, men det gør ikke noget (den ignoreres anden gang)
+            builder.Services.AddControllers();
 
             builder.Services.AddCascadingAuthenticationState();
 
@@ -90,7 +95,7 @@ namespace LystfiskerPortalen
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
 
-            app.MapAdditionalIdentityEndpoints(); ;
+            app.MapAdditionalIdentityEndpoints();
 
             app.Run();
         }
