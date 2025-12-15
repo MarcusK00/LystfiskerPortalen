@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LystfiskerPortalen", "Lystf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LystfiskerPortalenAPI", "LystfiskerPortalenAPI\LystfiskerPortalenAPI.csproj", "{80D57D84-6749-497C-AC86-8AF90C66B2A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LystfiskerPortalenShared", "LystfiskerPortalenShared\LystfiskerPortalenShared.csproj", "{1EA0F017-76F9-4FE9-955F-EFD52FA24BAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LystfiskerPortalenShared", "LystfiskerPortalenShared\LystfiskerPortalenShared.csproj", "{1EA0F017-76F9-4FE9-955F-EFD52FA24BAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
